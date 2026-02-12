@@ -1,0 +1,31 @@
+Category:
+    id (PK)
+    name
+    parent_category_id (FK)
+
+Nomenclature:
+    id (PK)
+    name
+    stock
+    price
+    category_id (FK)
+
+Client:
+    id (PK)
+    name
+    address
+
+Order:
+    id (PK)
+    client_id (FK)
+    total_price
+    status
+    created_at
+    updated_at
+
+OrderItem:
+    id (PK)
+    order_id (FK)
+    nomenclature_id (FK)
+    quantity
+    fixed_price
