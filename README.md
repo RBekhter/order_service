@@ -12,7 +12,7 @@
 * cd order_service
 * docker-compose up -d --build
 
-#### Просмотреть содержимое базы данных:
+#### Открыть базу данных:
 * http://localhost:5050/browser/
 * Login: user
 * Password: 1234
@@ -60,11 +60,11 @@
 #### Открыть документацию API
 * http://localhost:8000/docs
 
-#### Возможные ошибка:
+#### Возможные ошибки:
 * 404 - order_not_found
 * 404 - nomenclature_not_found
 * 400 - insufficient_stock
-* 400 - order_closed (нельзя изменить заказ со статусом отличным от draft)
+* 400 - order_closed (нельзя изменить заказ со статусом, отличным от draft)
 
 #### Технологический стек
 * Backend: FastAPI (Python 3.11)

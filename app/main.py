@@ -2,38 +2,22 @@ import logging
 from contextlib import asynccontextmanager
 from typing import AsyncGenerator
 
-from fastapi import FastAPI, Depends
+from fastapi import Depends, FastAPI
 from fastapi.responses import JSONResponse
-from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.ext.asyncio import AsyncSession
 
+from .crud import (create_order_item, get_nomenclature, get_order,
+                   get_order_item, update_order_item)
 from .database import engine, get_db
-from .schemas import (
-    AddItemToOrderRequest,
-    OrderResponse,
-    ErrorResponse
-)
-from .crud import (
-    get_order,
-    get_nomenclature,
-    get_order_item,
-    create_order_item,
-    update_order_item
-)
-from .exceptions import (
-    OrderNotFoundException,
-    NomenclatureNotFoundException,
-    InsufficientStockException,
-    OrderClosedException
-)
-from .handlers import (
-    order_not_found_handler,
-    nomenclature_not_found_handler,
-    insufficient_stock_handler,
-    order_closed_handler
-)
-
+from .exceptions import (InsufficientStockException,
+                         NomenclatureNotFoundException, OrderClosedException,
+                         OrderNotFoundException)
+from .handlers import (insufficient_stock_handler,
+                       nomenclature_not_found_handler, order_closed_handler,
+                       order_not_found_handler)
+from .schemas import AddItemToOrderRequest, ErrorResponse, OrderResponse
 
 logging.basicConfig(
     level=logging.INFO,

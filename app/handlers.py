@@ -1,11 +1,9 @@
 from fastapi import Request, status
 from fastapi.responses import JSONResponse
-from .exceptions import (
-    OrderNotFoundException,
-    NomenclatureNotFoundException,
-    InsufficientStockException,
-    OrderClosedException
-)
+
+from .exceptions import (InsufficientStockException,
+                         NomenclatureNotFoundException, OrderClosedException,
+                         OrderNotFoundException)
 
 
 async def order_not_found_handler(

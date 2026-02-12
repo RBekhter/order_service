@@ -1,13 +1,12 @@
 from datetime import datetime
+from decimal import Decimal
+
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from decimal import Decimal
-from .models import Order, Nomenclature, OrderItem
-from .exceptions import (
-    OrderNotFoundException,
-    NomenclatureNotFoundException,
-    InsufficientStockException,
-)
+
+from .exceptions import (InsufficientStockException,
+                         NomenclatureNotFoundException, OrderNotFoundException)
+from .models import Nomenclature, Order, OrderItem
 
 
 async def get_order(db: AsyncSession, order_id: int) -> Order:

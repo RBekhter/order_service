@@ -1,10 +1,7 @@
-from sqlalchemy import (
-    Column, Integer, String, Numeric,
-    ForeignKey, DateTime, func, UniqueConstraint
-)
-from sqlalchemy.orm import relationship
+from sqlalchemy import (Column, DateTime, ForeignKey, Integer, Numeric, String,
+                        UniqueConstraint, func)
 from sqlalchemy.ext.declarative import declarative_base
-
+from sqlalchemy.orm import relationship
 
 Base = declarative_base()
 
