@@ -1,14 +1,14 @@
 Category:
     id (PK)
     name
-    parent_category_id (FK)
+    parent_category_id (FK) -> category.id (self-reference, 1:N)
 
 Nomenclature:
     id (PK)
     name
     stock
     price
-    category_id (FK)
+    category_id (FK) -> category.id(N:1)
 
 Client:
     id (PK)
@@ -17,7 +17,7 @@ Client:
 
 Order:
     id (PK)
-    client_id (FK)
+    client_id (FK) -> client.id(N:1)
     total_price
     status
     created_at
@@ -25,7 +25,8 @@ Order:
 
 OrderItem:
     id (PK)
-    order_id (FK)
-    nomenclature_id (FK)
+    order_id (FK) -> order.id(N:1)
+    nomenclature_id (FK) -> nomenclature.id (N:1)
     quantity
     fixed_price
+    INIQUE(order_id, nomenclature_id)
