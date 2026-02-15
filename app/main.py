@@ -17,7 +17,12 @@ from .exceptions import (InsufficientStockException,
 from .handlers import (insufficient_stock_handler,
                        nomenclature_not_found_handler, order_closed_handler,
                        order_not_found_handler)
+from .models import Order
+from .repository.nomenclature_repository import NomenclatureRepository
+from .repository.order_item_repository import OrderItemRepository
+from .repository.order_repository import OrderRepository
 from .schemas import AddItemToOrderRequest, ErrorResponse, OrderResponse
+from .use_case.add_item import AddItemUseCase
 
 logging.basicConfig(
     level=logging.INFO,
@@ -90,33 +95,10 @@ async def global_exception_handler(request, exc):
 async def add_item_to_order(
     request: AddItemToOrderRequest,
     db: AsyncSession = Depends(get_db)
-):
-    order = await get_order(db, request.order_id)
-    if order.status != 'draft':
-        raise OrderClosedException(order.id, order.status)
-    nomenclature = await get_nomenclature(db, request.nomenclature_id)
-    existing_item = await get_order_item(
-        db,
-        request.order_id,
-        request.nomenclature_id
-    )
-    if existing_item:
-        await update_order_item(
-            db,
-            existing_item,
-            nomenclature,
-            request.quantity
-        )
-    else:
-        await create_order_item(
-            db,
-            order,
-            nomenclature,
-            request.quantity
-        )
-    await db.refresh(order, ['items'])
-    for item in order.items:
-        await db.refresh(item, ['nomenclature'])
+) -> Order:
+    use_case = AddItemUseCase(OrderRepository(db), NomenclatureRepository(db), OrderItemRepository(db), db)
+    order = await use_case.execute(order_id=request.order_id, nomenclature_id=request.nomenclature_id, quantity=request.quantity)
+
     return order
 
 
